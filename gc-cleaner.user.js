@@ -2,11 +2,12 @@
 // @name        gc-cleaner
 // @namespace   gc-cleaner
 // @include     https://code.google.com/p/lightpack/wiki/*
-// @version     2
+// @version     3
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
 var gComments;
+var gBlockerDiv;
 
 var $ = function(id) { 
     return document.getElementById(id);
@@ -79,7 +80,7 @@ function deleteComment(cid, time, params) {
 }
 
 function deleteComments(ev) {
-
+    gBlockerDiv.style.display='block';
     var forms = document.getElementsByTagName('form');
     var i = 0;
     while (forms[i].getAttribute('name') != 'delcom' && i < forms.length) i++;
@@ -102,6 +103,14 @@ function deleteComments(ev) {
     } while (commentNode.info['id'] != toId);
     var timeout = (i+1) * 100 < 2000 ? 2000 : (i+1)*100
     setTimeout(function() { location.reload(); }, timeout);
+
+    ev.returnValue = false;
+
+    //e.stopPropagation works only in Firefox.
+    if (ev.stopPropagation) {
+        ev.stopPropagation();
+        ev.preventDefault();
+    }
     return false;
 }
 
@@ -109,6 +118,21 @@ function init() {
 
     var comments = getCommentNodes();
     gComments = comments;
+
+    var blockerDiv = document.createElement('div');
+    blockerDiv.style.background='#ffffff';
+    blockerDiv.style.width='100%';
+    blockerDiv.style.height='100%';
+    blockerDiv.style.opacity='0.5';
+    blockerDiv.style.left='0px';
+    blockerDiv.style.top='0px';
+    blockerDiv.style.zIndex='255';
+    blockerDiv.style.position='fixed';
+    blockerDiv.style.display='none';
+
+    gBlockerDiv = blockerDiv;
+
+    $("commentlist").appendChild(blockerDiv);
 
     var i=0;
     for (i=0; i < comments.length; i++) {
@@ -118,7 +142,7 @@ function init() {
         link.setAttribute('href', '#');
         link.textContent = 'delete this and all above';
         link.info = commentNode.info;
-        link.addEventListener('click', function (ev) { return deleteComments(ev); }, false);
+        link.addEventListener('click', function (ev) { return deleteComments(ev); }, true);
 
         var children = commentNode.getElementsByTagName('*');
         children[0].appendChild(textNode);
