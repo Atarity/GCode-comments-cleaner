@@ -7,4 +7,4 @@ It adds **delete all above** link near familiar **delete comment** link. You nee
 
 ![Simple example] (http://i.imgur.com/qBaKm.jpg "Simple example")
 
-**_Notice: in case Greasemonkey did not load Cleaner script properly you need to manually add user includes with URLs of pages you need to clean._**
+**_Notice: in case Greasemonkey or Tempermonkey did not load Cleaner script properly you need to manually add user includes with URLs of pages you need to clean._**
