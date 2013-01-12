@@ -11,4 +11,3 @@ It adds **delete all above** link near familiar **delete comment** link. You nee
 ####TODO:
 
 * Block any input events while work in background
-* Delete comment or delete this and all above
