@@ -8,5 +8,4 @@ It adds **delete all above** link near familiar **delete comment** link. You nee
 ![Simple example] (http://i.imgur.com/qBaKm.jpg "Simple example")
 ####TODO:
 
-1. Clear all above instead clear all
-2. Parse comments with GoogleCode-buggy markdown (e.g. unfinished `<b>, <i>` etc.)
+* Block any input events while work in background
