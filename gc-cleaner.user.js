@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name        gc-cleaner
 // @namespace   gc-cleaner
-// @include     https://code.google.com/p/lightpack/wiki/*
+// @include     https://code.google.com/p/*
 // @version     3
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
 var gComments;
 var gBlockerDiv;
+var gDelActionUrl;
 
 var $ = function(id) { 
     return document.getElementById(id);
@@ -71,7 +72,7 @@ function deleteComment(cid, time, params) {
     
     GM_xmlhttpRequest({
         method: "POST",
-        url   : 'https://code.google.com/p/lightpack/w/delComment.do',
+        url   : gDelActionUrl,
         data  : buildGetParams(params),
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -115,38 +116,46 @@ function deleteComments(ev) {
 }
 
 function init() {
+    var url = location.href;
 
-    var comments = getCommentNodes();
-    gComments = comments;
+    if (url.match('https\:\/\/code\.google\.com\/p\/[a-zA-Z\-]+\/wiki\/')) {
 
-    var blockerDiv = document.createElement('div');
-    blockerDiv.style.background='#ffffff';
-    blockerDiv.style.width='100%';
-    blockerDiv.style.height='100%';
-    blockerDiv.style.opacity='0.5';
-    blockerDiv.style.left='0px';
-    blockerDiv.style.top='0px';
-    blockerDiv.style.zIndex='255';
-    blockerDiv.style.position='fixed';
-    blockerDiv.style.display='none';
+        var comments = getCommentNodes();
+        gComments = comments;
 
-    gBlockerDiv = blockerDiv;
+        var blockerDiv = document.createElement('div');
+        blockerDiv.style.background='#ffffff';
+        blockerDiv.style.width='100%';
+        blockerDiv.style.height='100%';
+        blockerDiv.style.opacity='0.5';
+        blockerDiv.style.left='0px';
+        blockerDiv.style.top='0px';
+        blockerDiv.style.zIndex='255';
+        blockerDiv.style.position='fixed';
+        blockerDiv.style.display='none';
 
-    $("commentlist").appendChild(blockerDiv);
+        gBlockerDiv = blockerDiv;
 
-    var i=0;
-    for (i=0; i < comments.length; i++) {
-        var commentNode = comments[i];
-        var link = document.createElement('a');        
-        var textNode = document.createTextNode ("or ");
-        link.setAttribute('href', '#');
-        link.textContent = 'delete this and all above';
-        link.info = commentNode.info;
-        link.addEventListener('click', function (ev) { return deleteComments(ev); }, true);
+        var project = location.href.split('/')[4];
 
-        var children = commentNode.getElementsByTagName('*');
-        children[0].appendChild(textNode);
-        children[0].appendChild(link);
+        gDelActionUrl = 'https://code.google.com/p/'+project+'/w/delComment.do';
+
+        $("commentlist").appendChild(blockerDiv);
+
+        var i=0;
+        for (i=0; i < comments.length; i++) {
+            var commentNode = comments[i];
+            var link = document.createElement('a');
+            var textNode = document.createTextNode ("or ");
+            link.setAttribute('href', '#');
+            link.textContent = 'delete this and all above';
+            link.info = commentNode.info;
+            link.addEventListener('click', function (ev) { return deleteComments(ev); }, true);
+
+            var children = commentNode.getElementsByTagName('*');
+            children[0].appendChild(textNode);
+            children[0].appendChild(link);
+        }
     }
 }
 
