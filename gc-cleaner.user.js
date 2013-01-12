@@ -113,13 +113,15 @@ function init() {
     var i=0;
     for (i=0; i < comments.length; i++) {
         var commentNode = comments[i];
-        var link = document.createElement('a');
+        var link = document.createElement('a');        
+        var textNode = document.createTextNode ("or ");
         link.setAttribute('href', '#');
-        link.textContent = 'Delete this and above comments';
+        link.textContent = 'delete this and all above';
         link.info = commentNode.info;
         link.addEventListener('click', function (ev) { return deleteComments(ev); }, false);
 
         var children = commentNode.getElementsByTagName('*');
+        children[0].appendChild(textNode);
         children[0].appendChild(link);
     }
 }
