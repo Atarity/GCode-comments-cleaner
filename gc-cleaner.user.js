@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name        gc-cleaner
+// @name        googlecode-comments-cleaner
+// @description provides googlecode's wiki with bulk "delete comment" operation
 // @namespace   gc-cleaner
 // @include     https://code.google.com/p/*
 // @version     3
@@ -136,7 +137,7 @@ function init() {
 
         gBlockerDiv = blockerDiv;
 
-        var project = location.href.split('/')[4];
+        var project = url.split('/')[4];
 
         gDelActionUrl = 'https://code.google.com/p/'+project+'/w/delComment.do';
 
@@ -152,9 +153,9 @@ function init() {
             link.info = commentNode.info;
             link.addEventListener('click', function (ev) { return deleteComments(ev); }, true);
 
-            var children = commentNode.getElementsByTagName('*');
-            children[0].appendChild(textNode);
-            children[0].appendChild(link);
+            var nodeAddTo = commentNode.getElementsByTagName('*')[0];
+            nodeAddTo.appendChild(textNode);
+            nodeAddTo.appendChild(link);
         }
     }
 }
