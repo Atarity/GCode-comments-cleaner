@@ -7,7 +7,7 @@ It adds **delete all above** link near familiar **delete comment** link. You nee
 
 ![Simple example] (http://i.imgur.com/qBaKm.jpg "Simple example")
 
-**_Notice: in some cases you need to add user includes with URLs of pages you need to clean. And you need to replace hardcoded our Lightpack Google Code project URL._**
+**_Notice: in some cases you need to add user includes with URLs of pages you need to clean. Also you need to replace hardcoded Lightpack project URL._**
 ####TODO:
 
 * Block any input events while work in background
