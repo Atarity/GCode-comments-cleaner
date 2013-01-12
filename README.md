@@ -5,7 +5,7 @@ Firefox [Greasemonkey] (https://addons.mozilla.org/en-US/firefox/addon/greasemon
 
 It adds **delete all above** link near familiar **delete comment** link. You need project editor permission and should logged in for bulk delete.
 
-![Simple example] (http://i.imgur.com/bePrE.jpg "Simple example")
+![Simple example] (http://i.imgur.com/qBaKm.jpg "Simple example")
 ####TODO:
 
 1. Clear all above instead clear all
